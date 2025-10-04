@@ -27,7 +27,7 @@ USER appuser
 WORKDIR /app
 
 # 声明容器期望暴露的端口
-EXPOSE 10808
+EXPOSE 7860
 
 # 容器启动命令
 CMD ["/start.sh"]
