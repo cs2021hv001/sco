@@ -1,0 +1,19 @@
+
+:7860 {
+    root * /usr/share/caddy
+    file_server browse
+
+    header {
+        X-Robots-Tag none
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        Referrer-Policy no-referrer-when-downgrade
+    }
+
+    @vless_ws {
+        path /sgvle
+        header Connection *Upgrade*
+        header Upgrade websocket
+    }
+    reverse_proxy @vless_ws unix//app/sgvle.sock
+}
