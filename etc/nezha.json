@@ -1,0 +1,77 @@
+{
+  "log": {
+    "loglevel": "warning"
+  },
+  "dns": {
+    "servers": [
+      "https://1.1.1.1/dns-query",
+      "https://8.8.8.8/dns-query"
+    ]
+  },
+  "inbounds": [
+    {
+      "listen": "/app/sgvle.sock",
+      "protocol": "vless",
+      "settings": {
+        "clients": [
+          {
+            "id": "e0f45cdd-6029-48b1-ac1f-762543aea380"
+          }
+        ],
+        "decryption": "none"
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "none",
+        "wsSettings": {
+          "path": "/sgvle"
+        }
+      },
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls"
+        ]
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "tag": "direct",
+      "settings": {
+        "domainStrategy": "UseIP"
+      }
+    },
+    {
+      "protocol": "blackhole",
+      "tag": "block"
+    },
+    {
+      "tag": "force-to-ip",
+      "protocol": "freedom",
+      "settings": {
+        "redirect": "127.0.0.1:0"
+      }
+    }
+  ],
+  "routing": {
+    "rules": [
+      {
+        "type": "field",
+        "protocol": [
+          "bittorrent"
+        ],
+        "outboundTag": "block"
+      },
+      {
+        "type": "field",
+        "domain": [
+          "v.com"
+        ],
+        "outboundTag": "force-to-ip"
+      }
+    ]
+  }
+}
